@@ -24,14 +24,14 @@ function in_svn() {
 
 function svn_get_repo_name() {
   if in_svn; then
-    svn info | sed -n 's/Repository\ Root:\ .*\///p' | read SVN_ROOT
-    svn info | sed -n "s/URL:\ .*$SVN_ROOT\///p"
+    /usr/bin/svn.real info | sed -n 's/Repository\ Root:\ .*\///p' | read SVN_ROOT
+    /usr/bin/svn.real info | sed -n "s/URL:\ .*$SVN_ROOT\/tr-src\///p"
   fi
 }
 
 function svn_get_branch_name() {
   _DISPLAY=$(
-    svn info 2> /dev/null | \
+    /usr/bin/svn.real info 2> /dev/null | \
       awk -F/ \
       '/^URL:/ { \
         for (i=0; i<=NF; i++) { \
@@ -54,7 +54,7 @@ function svn_get_branch_name() {
 
 function svn_get_rev_nr() {
   if in_svn; then
-    svn info 2> /dev/null | sed -n 's/Revision:\ //p'
+    /usr/bin/svn.real info 2> /dev/null | sed -n 's/Revision:\ //p'
   fi
 }
 
